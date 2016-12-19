@@ -1,4 +1,3 @@
-# From https://cyber-omelette.blogspot.ca/2016/10/the-programmable-web-vice-city.html
 import urllib.request as ulib
 import base64
 import uuid
@@ -9,8 +8,8 @@ import json
 # 2. Check Criteria. (Find desirable bets)
 # 3. Place bet.
 
-### First step is to retrieve your balance from the API. This is the simplest API use case.
-# Start by building up the URL and headers needed to perform a GET request, 
+### First step is to retrieve your balance from the API. 
+# Start by creating the url and headers needed to perform a Get request, 
 # Get request will return a JSON response with the balance information.
 def get_balance(base_url, username, password):
     url = base_url + "/v1/client/balance"

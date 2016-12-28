@@ -3,41 +3,42 @@ from collections import defaultdict
 from pyexcel_ods import get_data
 import json
 
-# Load the spreadsheet with a column you want to convert to a boolean
 try:
-    target_ods_read = input('Name of input ods spreadsheet: ')
+    target_ods_read = input('Enter the name of an ods spreadsheet containing a column with '\
+    'text that you want to convert to boolean: ')
 except IOError:
-    print('Can not find input ods file')
+    print('Can\'t find input that ods file')
 
 try:
-    target_col_read = int(input('Which target spreadsheet column do you want to write to (enter a number): '))
-    if not target_col_read:
-        raise ValueError('Error: column is empty')
+    target_column_read = int(input('Which spreadsheet column do you want to convert to boolean (enter a number): '))
+    if not int(target_column_read):
+        raise ValueError('Error: please enter a number')
 except ValueError as e:
     print(e)
 
-print(type(target_col_read))
-ods_colB = get_data(target_ods_read, start_column=target_col_read, column_limit = target_col_read)
+ods_col = get_data(target_ods_read, start_column = target_column_read, column_limit = target_column_read)
+print('ods_col is', ods_col)
 
-print(json.dumps(ods_colB))
-print('len(ods_colB) is', len(ods_colB))
-print('len((json.dumps(ods_colB)) is', len((json.dumps(ods_colB))))
-
+# Convert ods_col values to 1 if there's text in the column row, ' ' if there's no text.
 boolcolumns = []
-for val in ods_colB:
+for val in ods_col:
     if bool(val) == True:
         boolcolumns.append(1)
     else:
         boolcolumns.append(' ')
 print('boolcolumns = ', boolcolumns)
 
+#print(json.dumps(ods_col))
+#print('len(ods_col) is', len(ods_col))
+#print('len((json.dumps(ods_col)) is', len((json.dumps(ods_col))))
 
-### Updating a column using pandas
+
+### Testing updating a column using pandas
 import pandas as pd
 
 # practice data frame
 df = pd.DataFrame([[1,0],[0,1],[1,0],[0,1]], columns=['colA', 'colB'])
-
+print('df is ', df)
 # The syntax of subsetting a data frame is dfname.loc[startrow:endrow,startcolumn:endcolumn]
 # Use this to write the boolean column to the target spreadsheet
 df_subset = df[['colA']]
@@ -47,13 +48,17 @@ print(dummycol)
 df.loc[:, 'colA'] = ['dog','cat','bear','sheep']
 print (df)
 
+### Testing complete
+
+
 # Write boolean column to target spreadsheet
 target_ods_write = input('Name of target ods spreadsheet: ')
-target_col_write = input('Which target spreadsheet column do you want to write to (enter a number): ')
+target_col_write = input('Which target spreadsheet column do you want to write to (enter a number). Use 6 for default work: ')
 
 target_col_write_data = get_data(target_ods_write, start_column = target_col_write, column_limit = target_col_write)
 
-target_ods_read.close()
+file.close(target_ods_read)
+
 
 """
 # For reading Start_Stop_Continue in csv format

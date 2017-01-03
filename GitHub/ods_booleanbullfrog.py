@@ -23,7 +23,6 @@ ods_col = ods_col[1]
 boolcolumns = []
 for val in ods_col:
     boolcolumns.append(1)  # But get_data is ignoring rows with missing data 
-print(boolcolumns)   
 
 # Write boolean column to target spreadsheet
 target_ods_write = input('Name of target ods spreadsheet: ')
